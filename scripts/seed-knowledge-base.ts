@@ -3,8 +3,9 @@
 // Pre-loads Kshama's brain with GrowthAspire content
 
 import { createClient } from '@supabase/supabase-js';
-import * as dotenv from 'dotenv';
-dotenv.config({ path: '.env.local' });
+
+// When running locally, set env vars in your shell or use:
+// npx dotenv -e .env.local -- tsx scripts/seed-knowledge-base.ts
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
