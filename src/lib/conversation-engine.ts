@@ -155,7 +155,7 @@ export async function processMessage(request: ChatRequest): Promise<ChatResponse
 
   const response = await anthropic.messages.create({
     model: 'claude-sonnet-4-20250514',
-    max_tokens: 1024,
+    max_tokens: 512,
     system: systemPrompt,
     messages: claudeMessages,
   });
