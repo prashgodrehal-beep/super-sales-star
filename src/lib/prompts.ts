@@ -6,7 +6,7 @@ export function buildSystemPrompt(context: {
   visitorName?: string | null;
   conversationHistory: { role: string; content: string }[];
   knowledgeContext: string;
-  currentLeadSignals: Record<string, number>;
+  currentLeadSignals: { [key: string]: number };
 }): string {
   const isHomepage = context.pageUrl === '/' || context.pageUrl.includes('growthaspire.com') && !context.pageUrl.includes('ai-builders');
   const isProgramPage = context.pageUrl.includes('ai-builders') || context.pageUrl.includes('online-programs');
