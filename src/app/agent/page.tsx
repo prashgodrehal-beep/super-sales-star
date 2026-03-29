@@ -7,7 +7,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 // ============================================================
 const CONFIG = {
   apiUrl: typeof window !== 'undefined'
-    ? (window as Record<string, unknown>).__KSHAMA_API_URL as string || ''
+    ? ((window as unknown as Record<string, unknown>).__KSHAMA_API_URL as string) || ''
     : '',
   calendlyUrl: 'https://calendly.com/prashanth-growthaspire/30min',
   agentName: 'Kshama',
@@ -156,14 +156,14 @@ function CaseStudyCards({ items, onSelect }: { items: RichContentItem[]; onSelec
           background: C.navyMid, border: `1px solid rgba(0,212,255,0.1)`,
           transition: 'all 0.25s', flexShrink: 0,
         }}
-        onMouseEnter={e => {
-          (e.currentTarget as HTMLDivElement).style.borderColor = C.cyan;
-          (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-2px)';
-        }}
-        onMouseLeave={e => {
-          (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(0,212,255,0.1)';
-          (e.currentTarget as HTMLDivElement).style.transform = 'none';
-        }}>
+          onMouseEnter={e => {
+            (e.currentTarget as HTMLDivElement).style.borderColor = C.cyan;
+            (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-2px)';
+          }}
+          onMouseLeave={e => {
+            (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(0,212,255,0.1)';
+            (e.currentTarget as HTMLDivElement).style.transform = 'none';
+          }}>
           <div style={{ fontSize: 11, fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: 1.1, color: C.amber, marginBottom: 6 }}>
             {c.data.category}
           </div>
