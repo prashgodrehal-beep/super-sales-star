@@ -144,7 +144,7 @@ export async function processMessage(request: ChatRequest): Promise<ChatResponse
     visitorName: conversation.visitor_name,
     conversationHistory: history,
     knowledgeContext,
-    currentLeadSignals: currentSignals,
+    currentLeadSignals: currentSignals as unknown as { [key: string]: number },
   });
 
   // --- 6. Call Claude ---
