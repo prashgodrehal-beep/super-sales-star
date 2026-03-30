@@ -286,6 +286,7 @@ export default function KshamaConcierge() {
           visitor_id: getVisitorId(),
           message: text,
           conversation_id: conversationId,
+          prompt_version: 'classic',
           page_url: typeof window !== 'undefined' ? window.location.pathname : '/',
         }),
       });

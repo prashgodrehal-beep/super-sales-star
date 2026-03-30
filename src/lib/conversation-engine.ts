@@ -3,7 +3,7 @@
 
 import Anthropic from '@anthropic-ai/sdk';
 import { getServerSupabase } from './supabase';
-import { buildSystemPrompt } from './prompts';
+import { buildSystemPrompt, buildClassicPrompt } from './prompts';
 import { retrieveKnowledge, formatKnowledgeForPrompt } from './rag';
 import type { ChatRequest, ChatResponse, LeadScore, LeadSignals, RichContent } from '@/types';
 
@@ -76,7 +76,7 @@ function mergeSignals(existing: LeadSignals, updated: LeadSignals | null): LeadS
 // === MAIN CONVERSATION HANDLER ===
 export async function processMessage(request: ChatRequest): Promise<ChatResponse> {
   const supabase = getServerSupabase();
-  const { visitor_id, message, page_url, metadata = {} } = request;
+  const { visitor_id, message, page_url, prompt_version = 'sales_os', metadata = {} } = request;
   let conversationId = request.conversation_id;
 
   // --- 1. Get or create conversation ---
@@ -133,19 +133,23 @@ export async function processMessage(request: ChatRequest): Promise<ChatResponse
   });
   const knowledgeContext = formatKnowledgeForPrompt(knowledgeItems);
 
-  // --- 5. Build system prompt ---
+  // --- 5. Build system prompt (version-aware) ---
   const currentSignals: LeadSignals = conversation.lead_signals || {
     role_seniority: 0, company_size: 0, urgency: 0,
     budget_signals: 0, ai_maturity: 0, engagement_depth: 0,
   };
 
-  const systemPrompt = buildSystemPrompt({
+  const promptContext = {
     pageUrl: page_url,
     visitorName: conversation.visitor_name,
     conversationHistory: history,
     knowledgeContext,
     currentLeadSignals: currentSignals as unknown as { [key: string]: number },
-  });
+  };
+
+  const systemPrompt = prompt_version === 'classic'
+    ? buildClassicPrompt(promptContext)
+    : buildSystemPrompt(promptContext);
 
   // --- 6. Call Claude ---
   const claudeMessages = history.map(m => ({

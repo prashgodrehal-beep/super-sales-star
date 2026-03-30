@@ -110,6 +110,7 @@ export interface ChatRequest {
   visitor_id: string;
   message: string;
   page_url: string;
+  prompt_version?: 'sales_os' | 'classic';
   metadata?: Record<string, unknown>;
 }
 

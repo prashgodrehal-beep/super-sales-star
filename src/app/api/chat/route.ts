@@ -23,6 +23,7 @@ export async function POST(request: NextRequest) {
       visitor_id: body.visitor_id,
       message: body.message,
       page_url: body.page_url || '/',
+      prompt_version: body.prompt_version || 'sales_os',
       metadata: body.metadata || {},
     });
 
